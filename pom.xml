@@ -51,6 +51,9 @@
                     <archive>
                         <manifestFile>src/main/webapp/META-INF/MANIFEST.MF</manifestFile>
                     </archive>
+                    <includes>
+                        <include>**/com/github/drxaos/profiler/agent/Agent.class</include>
+                    </includes>
                 </configuration>
             </plugin>
 

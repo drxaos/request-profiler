@@ -1,2 +1,2 @@
 Manifest-Version: 1.0
-PreMain-Class: com.github.drxaos.profiler.agent.ProfilerAgent
+PreMain-Class: com.github.drxaos.profiler.agent.Agent

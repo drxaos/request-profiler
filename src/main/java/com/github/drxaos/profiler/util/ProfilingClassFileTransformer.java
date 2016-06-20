@@ -1,6 +1,5 @@
-package com.github.drxaos.profiler.agent;
+package com.github.drxaos.profiler.util;
 
-import com.github.drxaos.profiler.util.ProfilerInfo;
 import javassist.*;
 
 import java.lang.instrument.ClassFileTransformer;

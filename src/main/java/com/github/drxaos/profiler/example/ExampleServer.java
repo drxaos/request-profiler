@@ -1,5 +1,7 @@
 package com.github.drxaos.profiler.example;
 
+import com.github.drxaos.profiler.agent.Agent;
+import com.github.drxaos.profiler.util.ProfilingClassFileTransformer;
 import com.github.drxaos.profiler.util.ProfilingFilter;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.ContextHandler;
@@ -10,6 +12,13 @@ import java.util.EnumSet;
 
 public class ExampleServer {
     public static void main(String[] args) throws Exception {
+
+        // Starting agent
+
+        Agent.addTransformer(new ProfilingClassFileTransformer());
+
+        // Starting server
+
         Server server = new Server(9090);
 
         ContextHandler context0 = new ContextHandler();
