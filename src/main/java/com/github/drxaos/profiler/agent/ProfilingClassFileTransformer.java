@@ -24,7 +24,7 @@ public class ProfilingClassFileTransformer implements ClassFileTransformer {
         try {
             pool.insertClassPath(new ByteArrayClassPath(className, classfileBuffer));
             CtClass cclass = pool.get(className.replaceAll("/", "."));
-            if (className.startsWith("com/github/drxaos/example") && !cclass.isFrozen()) {
+            if (className.startsWith("com/github/drxaos/profiler/example/") && !cclass.isFrozen()) {
                 for (CtMethod currentMethod : cclass.getDeclaredMethods()) {
                     if (!Modifier.isNative(currentMethod.getModifiers())) {
                         currentMethod.insertBefore(createJavaString("start", currentMethod, className));

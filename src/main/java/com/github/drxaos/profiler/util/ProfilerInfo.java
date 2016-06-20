@@ -4,61 +4,70 @@ import java.util.ArrayList;
 
 public class ProfilerInfo {
 
-    static class R {
+    public static class Call {
         String cls;
         String mth;
         Long start;
         Long end;
         int depth;
 
-        public R cls(String cls) {
+        public Call cls(String cls) {
             this.cls = cls;
             return this;
         }
 
-        public R mth(String mth) {
+        public Call mth(String mth) {
             this.mth = mth;
             return this;
         }
 
-        public R start(Long start) {
+        public Call start(Long start) {
             this.start = start;
             return this;
         }
 
-        public R end(Long end) {
+        public Call end(Long end) {
             this.end = end;
             return this;
         }
 
-        public R depth(int depth) {
+        public Call depth(int depth) {
             this.depth = depth;
             return this;
         }
 
     }
 
-    static ThreadLocal<ArrayList<R>> records = new ThreadLocal<ArrayList<R>>();
+    public static class Record {
+        String url;
+        ArrayList<Call> calls = new ArrayList<Call>();
 
-    public static void record() {
-        records.set(new ArrayList<R>());
+        public Record(String url) {
+            this.url = url;
+        }
     }
 
-    public static ArrayList<R> results() {
-        ArrayList<R> rs = records.get();
+    static ThreadLocal<Record> records = new ThreadLocal<Record>();
+
+    public static void record(String url) {
+        records.set(new Record(url));
+    }
+
+    public static Record results() {
+        Record record = records.get();
         records.set(null);
-        return rs;
+        return record;
     }
 
     public static void start(String c, String m) {
-        ArrayList<R> rec = records.get();
+        Record rec = records.get();
         if (rec == null) {
             return;
         }
 
-        int depth = rec.size() > 0 ? rec.get(rec.size() - 1).depth : 0;
+        int depth = rec.calls.size() > 0 ? rec.calls.get(rec.calls.size() - 1).depth : 0;
 
-        rec.add(new R()
+        rec.calls.add(new Call()
                 .cls(c)
                 .mth(m)
                 .start(System.currentTimeMillis())
@@ -67,14 +76,14 @@ public class ProfilerInfo {
     }
 
     public static void end(String c, String m) {
-        ArrayList<R> rec = records.get();
+        Record rec = records.get();
         if (rec == null) {
             return;
         }
 
-        int depth = rec.size() > 0 ? rec.get(rec.size() - 1).depth : 0;
+        int depth = rec.calls.size() > 0 ? rec.calls.get(rec.calls.size() - 1).depth : 0;
 
-        rec.add(new R()
+        rec.calls.add(new Call()
                 .cls(c)
                 .mth(m)
                 .end(System.currentTimeMillis())
